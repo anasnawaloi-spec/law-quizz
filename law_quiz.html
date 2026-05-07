@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ข้อสอบกฎหมาย เทอม 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f472b6;
+    --pink-light: #fce7f3;
+    --pink-mid: #fbcfe8;
+    --purple: #a855f7;
+    --purple-light: #f3e8ff;
+    --yellow: #fbbf24;
+    --yellow-light: #fef3c7;
+    --green: #34d399;
+    --green-light: #d1fae5;
+    --red: #f87171;
+    --red-light: #fee2e2;
+    --white: #fff;
+    --text: #1e1b4b;
+    --bg: #fdf4ff;
+    --card: #fff;
+    --border: #e9d5ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Mitr', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px 0;
+    background-image:
+      radial-gradient(circle at 10% 10%, #fce7f3 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, #f3e8ff 0%, transparent 40%);
+  }
+
+  header {
+    background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);
+    color: white;
+    text-align: center;
+    padding: 36px 20px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '⭐';
+    font-size: 80px;
+    position: absolute;
+    left: -20px;
+    top: -10px;
+    opacity: 0.15;
+    transform: rotate(-20deg);
+  }
+  header::after {
+    content: '🌸';
+    font-size: 70px;
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    opacity: 0.18;
+    transform: rotate(15deg);
+  }
+  header h1 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  header p {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    opacity: 0.88;
+  }
+
+  .score-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 18px 20px;
+    background: white;
+    border-bottom: 2px dashed var(--pink-mid);
+    flex-wrap: wrap;
+  }
+  .score-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    background: var(--pink-light);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-weight: 500;
+    color: #be185d;
+    border: 1.5px solid var(--pink-mid);
+    transition: all 0.3s;
+  }
+  .score-pill.correct { background: var(--green-light); color: #065f46; border-color: #a7f3d0; }
+  .score-pill.wrong { background: var(--red-light); color: #991b1b; border-color: #fca5a5; }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 28px 16px;
+  }
+
+  .chapter-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #7c3aed;
+    margin: 32px 0 16px;
+    padding: 10px 18px;
+    background: var(--purple-light);
+    border-radius: 12px;
+    border-left: 5px solid #a855f7;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 16px rgba(168,85,247,0.07);
+    border: 1.5px solid var(--border);
+    transition: box-shadow 0.2s;
+    position: relative;
+  }
+  .question-card:hover { box-shadow: 0 4px 24px rgba(168,85,247,0.12); }
+
+  .q-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .q-text {
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    color: #1e1b4b;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 9px; }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 11px 16px;
+    border-radius: 12px;
+    border: 2px solid #e9d5ff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    background: #fafafa;
+    transition: all 0.18s;
+    user-select: none;
+    line-height: 1.5;
+  }
+  .option:hover { border-color: #c084fc; background: var(--purple-light); }
+  .option.selected { border-color: #a855f7; background: var(--purple-light); }
+  .option.correct { border-color: #10b981; background: var(--green-light); color: #065f46; font-weight: 500; }
+  .option.wrong { border-color: #ef4444; background: var(--red-light); color: #991b1b; }
+  .option.reveal-correct { border-color: #10b981; background: var(--green-light); color: #065f46; font-weight: 500; }
+
+  .option-letter {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e9d5ff;
+    color: #7c3aed;
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .option.correct .option-letter { background: #10b981; color: white; }
+  .option.wrong .option-letter { background: #ef4444; color: white; }
+  .option.reveal-correct .option-letter { background: #10b981; color: white; }
+
+  .check-btn {
+    margin-top: 14px;
+    padding: 9px 24px;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Mitr', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 2px 10px rgba(168,85,247,0.25);
+  }
+  .check-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .check-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+  .feedback {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.93rem;
+    line-height: 1.6;
+    display: none;
+    animation: fadeIn 0.3s;
+  }
+  .feedback.correct-fb {
+    background: var(--green-light);
+    border: 1.5px solid #6ee7b7;
+    color: #065f46;
+    display: block;
+  }
+  .feedback.wrong-fb {
+    background: var(--red-light);
+    border: 1.5px solid #fca5a5;
+    color: #991b1b;
+    display: block;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .result-section {
+    display: none;
+    text-align: center;
+    margin: 40px 0 20px;
+    padding: 36px 28px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px rgba(168,85,247,0.13);
+    border: 2px solid var(--border);
+    animation: fadeIn 0.5s;
+  }
+  .result-section.show { display: block; }
+  .result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+  .result-score { font-family: 'Kanit', sans-serif; font-size: 2.8rem; font-weight: 700; color: #a855f7; }
+  .result-label { font-size: 1.1rem; color: #6d28d9; margin-top: 4px; }
+  .result-msg { margin-top: 14px; font-size: 0.98rem; color: #64748b; }
+
+  .action-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .action-btn {
+    padding: 11px 28px;
+    border-radius: 999px;
+    font-family: 'Mitr', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .action-btn.primary {
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    color: white;
+    box-shadow: 0 2px 12px rgba(168,85,247,0.3);
+  }
+  .action-btn.secondary {
+    background: white;
+    color: #a855f7;
+    border: 2px solid #a855f7;
+  }
+  .action-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+  .answer-key-section {
+    display: none;
+    margin-top: 40px;
+  }
+  .answer-key-section.show { display: block; }
+  .answer-key-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    border-radius: 16px;
+    padding: 14px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .answer-item {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border-left: 5px solid #a855f7;
+    box-shadow: 0 2px 10px rgba(168,85,247,0.07);
+  }
+  .answer-item .q-ref { font-size: 0.82rem; color: #a855f7; font-weight: 600; margin-bottom: 4px; }
+  .answer-item .q-ans { font-size: 0.95rem; line-height: 1.6; color: #1e1b4b; }
+  .answer-item .correct-mark {
+    display: inline-block;
+    background: #10b981;
+    color: white;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    margin-left: 6px;
+  }
+
+  .progress-bar-wrap {
+    height: 6px;
+    background: #f3e8ff;
+    border-radius: 999px;
+    margin: 0 0 24px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f472b6, #a855f7);
+    border-radius: 999px;
+    transition: width 0.4s;
+  }
+
+  .star-tag {
+    display: inline-block;
+    background: var(--yellow-light);
+    color: #92400e;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    margin-left: 8px;
+    border: 1px solid #fcd34d;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 ข้อสอบกฎหมาย เทอม 2</h1>
+  <p>ทรัพย์สินทางปัญญา · สัญญาจ้าง · ภาษีอากร · พ.ร.บ. คอมพิวเตอร์</p>
+</header>
+
+<div class="score-bar">
+  <div class="score-pill" id="pill-total">📝 ทั้งหมด <span id="total-count">0</span> ข้อ</div>
+  <div class="score-pill correct" id="pill-correct">✅ ถูก <span id="correct-count">0</span></div>
+  <div class="score-pill wrong" id="pill-wrong">❌ ผิด <span id="wrong-count">0</span></div>
+</div>
+
+<div class="container" id="quiz-container"></div>
+
+<div class="container">
+  <div class="action-row" id="submit-row" style="display:none;">
+    <button class="action-btn primary" onclick="submitAll()">🎯 ส่งคำตอบทั้งหมด</button>
+    <button class="action-btn secondary" onclick="showAnswerKey()">📋 ดูเฉลย</button>
+  </div>
+
+  <div class="result-section" id="result-section">
+    <div class="result-emoji" id="result-emoji">🌸</div>
+    <div class="result-score" id="result-score"></div>
+    <div class="result-label">คะแนนของคุณ</div>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="action-row">
+      <button class="action-btn primary" onclick="resetQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+      <button class="action-btn secondary" onclick="toggleAnswerKey()">📋 ดู/ซ่อนเฉลย</button>
+    </div>
+  </div>
+
+  <div class="answer-key-section" id="answer-key"></div>
+</div>
+
+<script>
+const quizData = [
+  // === บทที่ 1: ทรัพย์สินทางปัญญา ===
+  {
+    chapter: "🌸 บทที่ 1: ทรัพย์สินทางปัญญา",
+    q: "ทรัพย์สินทางปัญญาที่ได้รับการคุ้มครองทางกฎหมายมีอะไรบ้าง?",
+    options: [
+      "สิทธิบัตร, เครื่องหมายการค้า, ลิขสิทธิ์",
+      "สิทธิบัตร, เครื่องหมายการค้า, ลิขสิทธิ์, เครื่องหมายบริการ",
+      "ลิขสิทธิ์ และสิทธิบัตร เท่านั้น",
+      "สิทธิบัตร, สิทธิบัตรออกแบบ, อนุสิทธิบัตร"
+    ],
+    answer: 0,
+    explain: "ทรัพย์สินทางปัญญาที่ได้รับการคุ้มครองตามที่เรียน คือ สิทธิบัตร, เครื่องหมายการค้า, และลิขสิทธิ์"
+  },
+  {
+    chapter: null,
+    q: "ทรัพย์สินทางปัญญาชนิดใด ไม่ต้องจดทะเบียน?",
+    options: ["สิทธิบัตร", "เครื่องหมายการค้า", "ลิขสิทธิ์", "อนุสิทธิบัตร"],
+    answer: 2,
+    explain: "ลิขสิทธิ์ไม่ต้องจดทะเบียน เพราะเกิดขึ้นทันทีที่มีการสร้างสรรค์ผลงาน"
+  },
+  {
+    chapter: null,
+    q: "งานสร้างสรรค์ประเภทใดได้รับการคุ้มครองลิขสิทธิ์? (มาตรา 6)",
+    options: [
+      "ข่าวประจำวัน และข้อเท็จจริงทั่วไป",
+      "วรรณกรรม, นาฏกรรม, ศิลปกรรม, ดนตรีกรรม, โสตทัศนวัสดุ",
+      "รัฐธรรมนูญ และกฎหมาย",
+      "คำพิพากษาและคำวินิจฉัยของศาล"
+    ],
+    answer: 1,
+    explain: "มาตรา 6 คุ้มครองงานสร้างสรรค์ เช่น วรรณกรรม นาฏกรรม ศิลปกรรม ดนตรีกรรม โสตทัศนวัสดุ ภาพยนตร์ สิ่งบันทึกเสียง งานแพร่เสียงแพร่ภาพ"
+  },
+  {
+    chapter: null,
+    q: "โปรแกรมคอมพิวเตอร์ จัดอยู่ในงานสร้างสรรค์ประเภทใด?",
+    options: ["ศิลปกรรม", "วรรณกรรม", "โสตทัศนวัสดุ", "นาฏกรรม"],
+    answer: 1,
+    explain: "โปรแกรมคอมพิวเตอร์จัดอยู่ในหมวด 'วรรณกรรม' ร่วมกับหนังสือ จุลสาร สิ่งพิมพ์ คำปราศรัย"
+  },
+  {
+    chapter: null,
+    q: "'ดนตรีกรรม' และ 'สิ่งบันทึกเสียง' ต่างกันอย่างไร?",
+    options: [
+      "ดนตรีกรรมคือไฟล์ mp3, สิ่งบันทึกเสียงคือทำนอง",
+      "ดนตรีกรรมคือทำนอง/เนื้อร้องที่แต่งขึ้น, สิ่งบันทึกเสียงคือเพลงที่บันทึกไว้ เช่น ไฟล์ mp3",
+      "ทั้งสองอย่างเหมือนกัน",
+      "ดนตรีกรรมเป็นของค่ายเพลง, สิ่งบันทึกเสียงเป็นของนักร้อง"
+    ],
+    answer: 1,
+    explain: "ดนตรีกรรม = ทำนอง เนื้อร้องที่แต่งขึ้น ลิขสิทธิ์เป็นของผู้สร้าง / สิ่งบันทึกเสียง = เช่น ไฟล์ mp3, เพลงใน Spotify เจ้าของมักเป็นค่ายเพลง"
+  },
+  {
+    chapter: null,
+    q: "บริษัทจ้างให้ 'ภูมิ' แต่งเพลง โดย ไม่มีสัญญา ลิขสิทธิ์เพลงเป็นของใคร?",
+    options: ["บริษัทที่จ้าง", "ภูมิ ผู้แต่ง", "แบ่งกันครึ่งต่อครึ่ง", "ค่ายเพลงที่ร่วมงาน"],
+    answer: 1,
+    explain: "ถ้าไม่มีสัญญา → ผู้แต่งหรือผู้สร้างสรรค์ = เจ้าของลิขสิทธิ์"
+  },
+  {
+    chapter: null,
+    q: "งานที่มีลิขสิทธิ์ตามสัญญาจ้างแรงงาน เป็นของใคร?",
+    options: ["นายจ้าง", "ลูกจ้าง", "ทั้งสองฝ่ายร่วมกัน", "รัฐ"],
+    answer: 1,
+    explain: "งานที่มีลิขสิทธิ์ตามสัญญาจ้างแรงงาน → เป็นของลูกจ้าง"
+  },
+  {
+    chapter: null,
+    q: "ลิขสิทธิ์เกิดขึ้นเมื่อใด?",
+    options: ["เมื่อจดทะเบียน", "เมื่อได้รับอนุมัติจากกรมทรัพย์สินทางปัญญา", "ทันทีที่มีการสร้างสรรค์ผลงาน", "เมื่อมีการเผยแพร่สู่สาธารณะ"],
+    answer: 2,
+    explain: "ลิขสิทธิ์เกิดขึ้นทันทีเมื่อมีการสร้างสรรค์ผลงาน ไม่ต้องจดทะเบียน"
+  },
+  {
+    chapter: null,
+    q: "ลิขสิทธิ์ทั่วไปมีอายุคุ้มครองกี่ปี?",
+    options: [
+      "50 ปีนับแต่สร้างสรรค์",
+      "ตลอดอายุผู้สร้างสรรค์ + 50 ปี นับแต่ผู้สร้างสรรค์ตาย",
+      "10 ปี ต่ออายุได้",
+      "20 ปีนับแต่จดทะเบียน"
+    ],
+    answer: 1,
+    explain: "ลิขสิทธิ์ทั่วไป = ตลอดอายุผู้สร้างสรรค์ + 50 ปี นับตั้งแต่ผู้สร้างสรรค์ตาย"
+  },
+  {
+    chapter: null,
+    q: "งานศิลปะประยุกต์ มีอายุการคุ้มครองลิขสิทธิ์กี่ปี?",
+    options: ["25 ปีนับแต่สร้าง", "50 ปีนับแต่สร้าง", "ตลอดอายุผู้สร้าง + 50 ปีหลังตาย", "10 ปี"],
+    answer: 2,
+    explain: "งานศิลปะประยุกต์อยู่ในหมวดศิลปกรรม คุ้มครองตลอดอายุผู้สร้างสรรค์ + 50 ปีหลังตาย"
+  },
+  {
+    chapter: null,
+    q: "สิ่งใดต่อไปนี้ ไม่ได้รับการคุ้มครองลิขสิทธิ์?",
+    options: ["โปรแกรมคอมพิวเตอร์", "ภาพถ่าย", "ข่าวประจำวันและข้อเท็จจริงต่างๆ", "บทความวิชาการ"],
+    answer: 2,
+    explain: "ไม่คุ้มครอง: ข่าวประจำวัน, รัฐธรรมนูญ/กฎหมาย, ระเบียบ/ประกาศ/คำสั่งราชการ, คำพิพากษา"
+  },
+  {
+    chapter: null,
+    q: "เครื่องหมายการค้ามีวัตถุประสงค์เพื่ออะไร?",
+    options: [
+      "เพื่อป้องกันการลักทรัพย์",
+      "เพื่อแสดงว่าสินค้าที่ใช้เครื่องหมายนั้นแตกต่างกับสินค้าของบุคคลอื่น",
+      "เพื่อจดสิทธิบัตร",
+      "เพื่อเสียภาษีมูลค่าเพิ่ม"
+    ],
+    answer: 1,
+    explain: "เครื่องหมายการค้ามีไว้เพื่อแสดงว่าสินค้าที่ใช้เครื่องหมายนั้นแตกต่างกับสินค้าของบุคคลอื่น"
+  },
+  {
+    chapter: null,
+    q: "เครื่องหมายการค้าได้รับการคุ้มครองเมื่อใด?",
+    options: ["ทันทีที่ใช้งาน", "เมื่อจดทะเบียนแล้วเท่านั้น", "เมื่อมีการโฆษณาสินค้า", "เมื่อบริษัทจดทะเบียนนิติบุคคล"],
+    answer: 1,
+    explain: "เครื่องหมายการค้าได้รับการคุ้มครองเมื่อจดทะเบียนแล้วเท่านั้น"
+  },
+  {
+    chapter: null,
+    q: "เครื่องหมายการค้ามีอายุกี่ปี และต้องต่ออายุล่วงหน้ากี่เดือน?",
+    options: ["5 ปี, ต่อล่วงหน้า 1 เดือน", "10 ปี, ต่อล่วงหน้า 3 เดือน", "20 ปี, ต่อล่วงหน้า 6 เดือน", "10 ปี, ต่อล่วงหน้า 6 เดือน"],
+    answer: 1,
+    explain: "เครื่องหมายการค้ามีอายุ 10 ปี ถ้าจะต่ออายุต้องดำเนินการล่วงหน้า 3 เดือน"
+  },
+  {
+    chapter: null,
+    q: "โลโก้ SCG และ ปตท เป็นเครื่องหมายประเภทใด?",
+    options: [
+      "เครื่องหมายการค้าทั่วไป (Trade mark)",
+      "เครื่องหมายบริการ (Service mark)",
+      "เครื่องหมายร่วม (Collective mark)",
+      "เครื่องหมายรับรอง (Certification mark)"
+    ],
+    answer: 2,
+    explain: "SCG และ ปตท เป็นเครื่องหมายร่วม (Collective mark) เพราะใช้ร่วมกันในทางธุรกิจ"
+  },
+  {
+    chapter: null,
+    q: "อายุคุ้มครองของสิทธิบัตรการประดิษฐ์คือ?",
+    options: ["10 ปี", "15 ปี", "20 ปี", "25 ปี"],
+    answer: 2,
+    explain: "สิทธิบัตรการประดิษฐ์ = 20 ปี / สิทธิบัตรออกแบบผลิตภัณฑ์ = 10 ปี / อนุสิทธิบัตร = 6 ปี"
+  },
+  {
+    chapter: null,
+    q: "สิทธิบัตรกับอนุสิทธิบัตรต่างกันอย่างไร?",
+    options: [
+      "สิทธิบัตรไม่ต้องจดทะเบียน, อนุสิทธิบัตรต้องจด",
+      "สิทธิบัตรคุ้มครอง 20 ปี และมีระดับการประดิษฐ์ขั้นสูงกว่า, อนุสิทธิบัตรคุ้มครอง 6 ปี",
+      "สิทธิบัตรเป็นของรัฐ, อนุสิทธิบัตรเป็นของเอกชน",
+      "เหมือนกันทุกอย่าง"
+    ],
+    answer: 1,
+    explain: "สิทธิบัตร = 20 ปี, ระดับประดิษฐ์ขั้นสูงกว่า / อนุสิทธิบัตร = 6 ปี (อนุสั้นกว่า)"
+  },
+  {
+    chapter: null,
+    q: "การกระทำในข้อใดถือเป็นการละเมิดลิขสิทธิ์ขั้นรอง?",
+    options: [
+      "คัดลอกงานโดยไม่รู้ว่าผิด",
+      "ใช้งานที่ลิขสิทธิ์หมดอายุแล้ว",
+      "รู้อยู่แล้วว่าสิ่งนั้นผิดลิขสิทธิ์ แต่ยังทำเพื่อหากำไร",
+      "ใช้งานเพื่อการศึกษาส่วนตัว"
+    ],
+    answer: 2,
+    explain: "การละเมิดลิขสิทธิ์ขั้นรอง = รู้อยู่แล้วว่าสิ่งนั้นจะผิดลิขสิทธิ์ แต่ก็ยังทำเพื่อหากำไร"
+  },
+
+  // === บทที่ 2: สัญญาจ้างแรงงาน ===
+  {
+    chapter: "🌷 บทที่ 2: สัญญาจ้างแรงงานและจ้างทำของ",
+    q: "สัญญาจ้างแรงงาน มีลักษณะอย่างไร?",
+    options: [
+      "เป็นสัญญาฝ่ายเดียว นายจ้างสั่งได้อย่างเดียว",
+      "เป็นเอกเทศสัญญา, นิติกรรมระหว่างสองฝ่าย, สัญญาต่างตอบแทน",
+      "ต้องทำเป็นหนังสือเสมอ",
+      "ลูกจ้างตายแล้ว ทายาทสวมสิทธิ์ทำงานแทนได้"
+    ],
+    answer: 1,
+    explain: "สัญญาจ้างแรงงาน: เป็นเอกเทศสัญญา, นิติกรรมระหว่างนายจ้าง-ลูกจ้าง, เป็นสัญญาต่างตอบแทน, กฎหมายไม่บังคับต้องทำเป็นหนังสือ"
+  },
+  {
+    chapter: null,
+    q: "ถ้า 'ลูกจ้าง' เสียชีวิต สัญญาจ้างแรงงานเป็นอย่างไร?",
+    options: [
+      "ยังคงใช้ได้ ทายาทสามารถทำงานแทนได้",
+      "สัญญาจ้างย่อมระงับ ทายาทสวมสิทธิ์ทำหน้าที่แทนไม่ได้",
+      "ต้องดูตามเงื่อนไขในสัญญา",
+      "ขึ้นอยู่กับดุลยพินิจของนายจ้าง"
+    ],
+    answer: 1,
+    explain: "ลูกจ้างตาย → สัญญาจ้างระงับ ทายาทสวมสิทธิ์ทำหน้าที่แทนไม่ได้"
+  },
+  {
+    chapter: null,
+    q: "สัญญาจ้างแรงงานและสัญญาจ้างทำของ ต้องทำเป็นหนังสือหรือไม่?",
+    options: [
+      "ทั้งคู่ต้องทำเป็นหนังสือ",
+      "จ้างแรงงานต้องทำหนังสือ, จ้างทำของไม่ต้อง",
+      "ทั้งคู่ไม่ต้องทำเป็นหนังสือ ตกลงด้วยวาจาได้",
+      "จ้างทำของต้องทำหนังสือ, จ้างแรงงานไม่ต้อง"
+    ],
+    answer: 2,
+    explain: "ทั้งสัญญาจ้างแรงงานและจ้างทำของ ไม่ต้องทำเป็นหนังสือ ตกลงด้วยวาจาก็ฟ้องร้องคดีกันได้"
+  },
+  {
+    chapter: null,
+    q: "สัญญาจ้างทำของ สิ้นสุดลงเมื่อใด?",
+    options: [
+      "เมื่อครบกำหนดเวลา",
+      "เมื่อนายจ้างบอกเลิกสัญญา",
+      "เมื่อเห็นผลสำเร็จของงาน",
+      "เมื่อลูกจ้างลาออก"
+    ],
+    answer: 2,
+    explain: "สัญญาจ้างทำของสิ้นสุดลงเมื่อเห็นผลสำเร็จของงาน"
+  },
+  {
+    chapter: null,
+    q: "พ.ร.บ. คุ้มครองแรงงาน ไม่ใช้บังคับกับหน่วยงานใด?",
+    options: [
+      "บริษัทเอกชนขนาดใหญ่",
+      "หน่วยงานราชการ, รัฐวิสาหกิจ, ท้องถิ่น",
+      "ธนาคารเอกชน",
+      "โรงพยาบาลเอกชน"
+    ],
+    answer: 1,
+    explain: "พ.ร.บ. คุ้มครองแรงงานไม่ใช้บังคับกับหน่วยงานราชการ, รัฐวิสาหกิจ และท้องถิ่น"
+  },
+  {
+    chapter: null,
+    q: "ลูกจ้างที่เป็นหญิงคลอดบุตร มีสิทธิ์ลาคลอดกี่วัน และได้รับค่าจ้างกี่วัน?",
+    options: [
+      "ลาได้ 60 วัน, ได้ค่าจ้าง 30 วัน",
+      "ลาได้ 90 วัน, ได้ค่าจ้าง 45 วัน",
+      "ลาได้ 98 วัน, ได้ค่าจ้าง 45 วัน",
+      "ลาได้ 98 วัน, ได้ค่าจ้าง 98 วัน"
+    ],
+    answer: 2,
+    explain: "ลูกจ้างหญิงลาคลอดได้ 98 วัน แต่ได้รับค่าจ้าง 45 วัน"
+  },
+  {
+    chapter: null,
+    q: "'วันลากิจ' ถือเป็นวันหยุดหรือวันลา?",
+    options: ["วันหยุด", "วันลา", "ขึ้นอยู่กับนายจ้าง", "ทั้งวันหยุดและวันลา"],
+    answer: 1,
+    explain: "วันลากิจ = วันลา เพราะเราเป็นคนขอหยุดเอง ต่างจากวันหยุดที่กำหนดให้"
+  },
+  {
+    chapter: null,
+    q: "นายจ้างไม่จ่ายค่าจ้างตามกำหนด ต้องเสียดอกเบี้ยเท่าไหร่?",
+    options: ["7.5% ต่อปี", "10% ต่อปี", "15% ต่อปี", "20% ต่อปี"],
+    answer: 2,
+    explain: "ถ้านายจ้างไม่จ่ายเงิน/ค่าจ้างตามกำหนด → ต้องเสียดอกเบี้ย 15% ต่อปี, ถ้าจงใจไม่จ่าย → เสียเงินเพิ่ม 15% ทุก 7 วัน"
+  },
+
+  // === บทที่ 3: จำนอง จำนำ ค้ำประกัน ===
+  {
+    chapter: "💎 บทที่ 3: จำนอง จำนำ และค้ำประกัน",
+    q: "จำนำกับจำนองต่างกันอย่างไร?",
+    options: [
+      "จำนำใช้กับอสังหาริมทรัพย์, จำนองใช้กับสังหาริมทรัพย์",
+      "จำนำ = ส่งมอบทรัพย์สินให้เจ้าหนี้, สมบูรณ์เมื่อส่งมอบ / จำนอง = ไม่ต้องส่งมอบ ต้องจดทะเบียน",
+      "ทั้งคู่ต้องทำหนังสือและจดทะเบียน",
+      "จำนำต้องจดทะเบียน, จำนองไม่ต้อง"
+    ],
+    answer: 1,
+    explain: "จำนำ = ส่งมอบทรัพย์สิน (เช่น โทรศัพท์, ทอง) สมบูรณ์เมื่อส่งมอบ / จำนอง = เอาอสังหาริมทรัพย์ไปประกัน ต้องจดทะเบียนต่อหน้าพนักงาน+ทำหนังสือ ไม่จดไม่สมบูรณ์"
+  },
+  {
+    chapter: null,
+    q: "จำนองสมบูรณ์เมื่อใด?",
+    options: [
+      "เมื่อส่งมอบทรัพย์สินให้เจ้าหนี้",
+      "เมื่อทำหนังสือสัญญาเสร็จ",
+      "เมื่อจดทะเบียนต่อหน้าพนักงาน+ทำหนังสือ",
+      "เมื่อลูกหนี้ยอมรับ"
+    ],
+    answer: 2,
+    explain: "จำนองต้องจดทะเบียนต่อหน้าพนักงาน + ทำหนังสือ ถ้าไม่จดทะเบียน = ไม่สมบูรณ์"
+  },
+  {
+    chapter: null,
+    q: "สัญญาค้ำประกัน ต้องทำหนังสือและจดทะเบียนหรือไม่?",
+    options: [
+      "ต้องทำหนังสือและจดทะเบียน",
+      "ทำเป็นหนังสือแต่ไม่ต้องจดทะเบียน",
+      "ไม่ต้องทำหนังสือและไม่ต้องจดทะเบียน",
+      "ไม่ต้องทำหนังสือแต่ต้องจดทะเบียน"
+    ],
+    answer: 1,
+    explain: "ค้ำประกัน = ทำเป็นหนังสือ แต่ไม่ต้องจดทะเบียน"
+  },
+  {
+    chapter: null,
+    q: "เมื่อผู้ค้ำประกันชำระหนี้แทนลูกหนี้แล้ว ผู้ค้ำประกันมีสิทธิ์อะไร?",
+    options: [
+      "ไม่มีสิทธิ์เรียกคืน ถือว่าสมัครใจ",
+      "มีสิทธิ์ 'สิทธิไล่เบี้ย' คือเรียกเงินคืนจากลูกหนี้",
+      "ต้องรอให้ศาลสั่งก่อน",
+      "สิทธิ์หมดแล้วเพราะจ่ายไปแล้ว"
+    ],
+    answer: 1,
+    explain: "ผู้ค้ำประกันมี 'สิทธิไล่เบี้ย' คือสิทธิ์เรียกเงินจากลูกหนี้ที่ตนจ่ายแทนไป"
+  },
+  {
+    chapter: null,
+    q: "ถ้าสัญญาประธาน (สัญญาหลัก) เป็นโมฆะ สัญญาค้ำประกันมีผลอย่างไร?",
+    options: [
+      "ยังคงใช้ได้ตามปกติ",
+      "ผู้ค้ำประกันต้องรับผิดชอบแทน",
+      "ไม่มีผล",
+      "ขึ้นอยู่กับดุลยพินิจของศาล"
+    ],
+    answer: 2,
+    explain: "สัญญาค้ำประกันเป็นสัญญารอง ถ้าสัญญาประธานเป็นโมฆะ สัญญาค้ำประกันก็ไม่มีผล"
+  },
+
+  // === บทที่ 4: ภาษีอากร ===
+  {
+    chapter: "💛 บทที่ 4: ภาษีอากร (Tax)",
+    q: "'ภาษี' และ 'อากร' ต่างกันอย่างไร?",
+    options: [
+      "ภาษีเป็นของรัฐส่วนกลาง, อากรเป็นของท้องถิ่น",
+      "ภาษี = เงินที่รัฐเรียกเก็บจากบุคคลเพื่อบริหารประเทศ / อากร = ค่าธรรมเนียมที่รัฐเรียกเก็บ เช่น อากรแสตมป์",
+      "ทั้งสองคำหมายความเหมือนกัน",
+      "ภาษีเป็นภาคบังคับ, อากรเป็นภาคสมัครใจ"
+    ],
+    answer: 1,
+    explain: "ภาษี = เงินที่รัฐเรียกเก็บจากบุคคลเพื่อนำไปบริหารประเทศ / อากร = ค่าธรรมเนียมที่รัฐเรียกเก็บ เช่น อากรแสตมป์ อากรรังนก"
+  },
+  {
+    chapter: null,
+    q: "องค์ประกอบของกฎหมายอากรมีอะไรบ้าง?",
+    options: [
+      "ผู้เสียภาษี, ฐานภาษี, อัตราภาษี",
+      "ฐานภาษี, วิธีคำนวณ, ผู้เก็บภาษี",
+      "ผู้เสียภาษี, ปีภาษี, อัตราภาษี",
+      "ฐานภาษี, ปีภาษี, การลดหย่อน"
+    ],
+    answer: 0,
+    explain: "องค์ประกอบของกฎหมายอากร = อัตราภาษี + ฐานภาษี + ผู้เสียภาษี"
+  },
+  {
+    chapter: null,
+    q: "การจัดเก็บภาษีทางตรง คือข้อใด?",
+    options: [
+      "ภาษีมูลค่าเพิ่ม (VAT)",
+      "ภาษีสรรพสามิต",
+      "ภาษีเงินได้บุคคลธรรมดา",
+      "ภาษีศุลกากร"
+    ],
+    answer: 2,
+    explain: "ภาษีทางตรง = เงินได้บุคคลธรรมดา / ภาษีทางอ้อม = VAT, ภาษีสรรพสามิต"
+  },
+  {
+    chapter: null,
+    q: "ใครมีหน้าที่ต้องเสียภาษีเงินได้บุคคลธรรมดา?",
+    options: [
+      "เฉพาะผู้ที่มีสัญชาติไทย",
+      "ใครก็ตามที่มีเงินได้ในประเทศไทย",
+      "เฉพาะผู้ที่มีรายได้เกิน 1 ล้านบาทต่อปี",
+      "เฉพาะผู้ที่มีกิจการในไทย"
+    ],
+    answer: 1,
+    explain: "ใครก็ตามที่มีเงินได้ในประเทศไทย มีหน้าที่เสียภาษีเงินได้บุคคลธรรมดา แม้เป็นผู้เยาว์หรือคนวิกลจริต"
+  },
+  {
+    chapter: null,
+    q: "ผู้มีเงินได้เสียชีวิตระหว่างปีภาษี (เช่น มกรา-กรกฎา) ต้องเสียภาษีหรือไม่?",
+    options: [
+      "ไม่ต้องเสีย เพราะเสียชีวิตแล้ว",
+      "ต้องเสีย เพราะมีเงินได้ในช่วงนั้น",
+      "ขึ้นอยู่กับทายาท",
+      "ต้องดูว่าเสียชีวิตก่อนหรือหลังยื่นภาษี"
+    ],
+    answer: 1,
+    explain: "ผู้มีเงินได้เสียชีวิตระหว่างปีภาษีต้องเสีย เพราะมีเงินได้ในช่วงที่ยังมีชีวิตอยู่ โดยให้ผู้จัดการมรดกหรือทายาทเป็นคนเสียภาษีแทน"
+  },
+  {
+    chapter: null,
+    q: "'อัตราก้าวหน้า' ในภาษีเงินได้คืออะไร?",
+    options: [
+      "ทุกคนเสียภาษีในอัตราเดียวกัน",
+      "รายได้สูงเท่าไหร่ จ่ายภาษีในอัตราที่สูงขึ้นตามไปด้วย",
+      "อัตราภาษีที่รัฐสามารถเปลี่ยนแปลงได้ทุกปี",
+      "การลดหย่อนภาษีแบบขั้นบันได"
+    ],
+    answer: 1,
+    explain: "อัตราก้าวหน้า = รายได้สูงเท่าไหร่ จ่ายภาษีในอัตราที่สูงขึ้นตามรายได้"
+  },
+  {
+    chapter: null,
+    q: "'ภาษีหัก ณ ที่จ่าย' (Withholding Tax) คืออะไร?",
+    options: [
+      "ภาษีที่จ่ายย้อนหลัง",
+      "ผู้จ่ายเงินหักเงินไว้บางส่วนก่อนส่งต่อ แล้วนำส่งให้รัฐ",
+      "ภาษีที่ผู้รับเงินเป็นคนไปจ่ายเอง",
+      "ภาษีมูลค่าเพิ่มสำหรับสินค้านำเข้า"
+    ],
+    answer: 1,
+    explain: "ภาษีหัก ณ ที่จ่าย (Withholding Tax) = ผู้จ่ายเงินหักเงินไว้บางส่วนก่อนส่งต่อ แล้วนำส่งรัฐ"
+  },
+  {
+    chapter: null,
+    q: "'เงินได้สุทธิ' คำนวณอย่างไร?",
+    options: [
+      "เงินได้สุทธิ = เงินเดือน - ภาษีที่จ่ายแล้ว",
+      "เงินได้สุทธิ = เงินได้พึงประเมิน - ค่าใช้จ่าย - ค่าลดหย่อน",
+      "เงินได้สุทธิ = รายได้ - ค่าใช้จ่ายทั้งหมด",
+      "เงินได้สุทธิ = รายได้ต่อเดือน × 12"
+    ],
+    answer: 1,
+    explain: "เงินได้สุทธิ = เงินได้พึงประเมิน - ค่าใช้จ่าย - ค่าลดหย่อน"
+  },
+  {
+    chapter: null,
+    q: "การ 'เลี่ยงภาษี' คืออะไร?",
+    options: [
+      "การไม่ยื่นแบบภาษีประจำปี",
+      "การใช้ช่องว่างของกฎหมายโดยไม่ผิดกฎหมาย",
+      "การแจ้งรายได้เป็นเท็จ",
+      "การไม่จ่ายภาษีโดยเจตนา"
+    ],
+    answer: 1,
+    explain: "เลี่ยงภาษี = ใช้ช่องว่างของกฎหมายโดยไม่ผิดกฎหมาย (ต่างจากการหนีภาษีซึ่งผิดกฎหมาย)"
+  },
+  {
+    chapter: null,
+    q: "ใครไม่จ่ายภาษีมีโทษอย่างไร?",
+    options: [
+      "โทษทางแพ่ง = จ่ายค่าปรับ, โทษทางอาญา = จำคุก",
+      "โทษอย่างเดียวคือปรับ 50%",
+      "โทษอย่างเดียวคือจำคุก",
+      "ไม่มีโทษ แค่ต้องจ่ายย้อนหลัง"
+    ],
+    answer: 0,
+    explain: "โทษภาษีทางแพ่ง = จ่ายค่าปรับ 1.5% ต่อเดือน / ทางอาญา = จำคุก (ถ้าจงใจ)"
+  },
+
+  // === บทที่ 5: พ.ร.บ. คอมพิวเตอร์ ===
+  {
+    chapter: "💻 บทที่ 5: พ.ร.บ. คอมพิวเตอร์ พ.ศ. 2560",
+    q: "พ.ร.บ. คอมพิวเตอร์ที่ใช้บังคับอยู่ในปัจจุบันเป็น พ.ศ. อะไร?",
+    options: ["พ.ศ. 2540", "พ.ศ. 2550", "พ.ศ. 2560", "พ.ศ. 2566"],
+    answer: 2,
+    explain: "พ.ร.บ. ว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2560"
+  },
+  {
+    chapter: null,
+    q: "การเข้าถึงระบบคอมพิวเตอร์โดยมิชอบ อยู่ในมาตราใด?",
+    options: ["มาตรา 3", "มาตรา 5", "มาตรา 7", "มาตรา 9"],
+    answer: 1,
+    explain: "การเข้าสู่ระบบโดยมิชอบ = มาตรา 5 เช่น การแฮกเข้าระบบอีเมล, แอบใช้คอมพิวเตอร์คนอื่นโดยไม่ได้รับอนุญาต"
+  },
+  {
+    chapter: null,
+    q: "ใช้เครื่องสแกนเนอร์ขโมยข้อมูลบัตรเครดิต ผิดฐานอะไร?",
+    options: [
+      "ฐานเข้าสู่ระบบโดยมิชอบ",
+      "ฐานดักรับข้อมูลคอมพิวเตอร์",
+      "ฐานทำให้ระบบเสียหาย",
+      "ฐานสแปมโฆษณา"
+    ],
+    answer: 1,
+    explain: "การใช้เครื่องสแกนเนอร์ขโมยข้อมูลบัตรเครดิต = ฐานดักรับข้อมูลคอมพิวเตอร์"
+  },
+  {
+    chapter: null,
+    q: "แม่ค้าส่งข้อความโฆษณารัวๆ โดยไม่มีวิธียกเลิก ผิดมาตราใด?",
+    options: ["มาตรา 9", "มาตรา 11 วรรคสอง", "มาตรา 14", "มาตรา 16"],
+    answer: 1,
+    explain: "การส่งข้อความโฆษณาสแปมโดยไม่มีช่องทางยกเลิก = มาตรา 11 วรรคสอง ฐานสแปมโฆษณา"
+  },
+  {
+    chapter: null,
+    q: "โพสต์รูปภาพลามกอนาจารสาธารณะ ผิดมาตราใด?",
+    options: ["มาตรา 14(2)", "มาตรา 14(3)", "มาตรา 14(4)", "มาตรา 15"],
+    answer: 2,
+    explain: "โพสต์รูปลามกอนาจารสาธารณะ = มาตรา 14(4) (ถ้าเป็น private ไม่ผิด)"
+  },
+  {
+    chapter: null,
+    q: "พูดเรื่องระเบิดบนเครื่องบิน ผิดมาตราใด?",
+    options: ["มาตรา 14(1)", "มาตรา 14(2)", "มาตรา 14(3)", "มาตรา 14(4)"],
+    answer: 2,
+    explain: "พูดเรื่องระเบิดบนเครื่องบิน = มาตรา 14(3) ฐานการก่อการร้าย"
+  },
+  {
+    chapter: null,
+    q: "เพื่อนนำรูปภาพของผู้อื่นไปตัดต่อเป็นรูปอนาจาร ผิดมาตราใด?",
+    options: ["มาตรา 14(4)", "มาตรา 15", "มาตรา 16 วรรค 1", "มาตรา 11"],
+    answer: 2,
+    explain: "ตัดต่อรูปอนาจารของผู้อื่น = มาตรา 16 วรรค 1 ฐานการติดต่อภาพหมิ่นประมาท"
+  },
+  {
+    chapter: null,
+    q: "แอดมินเพจรู้ว่าโพสต์ผิดกฎหมายแต่ไม่ลบ ผิดมาตราใด?",
+    options: ["มาตรา 14", "มาตรา 15", "มาตรา 16", "มาตรา 17"],
+    answer: 1,
+    explain: "ผู้ให้บริการ/แอดมินที่รู้ว่าผิดกฎหมายแต่ไม่ดำเนินการ = มาตรา 15 ฐานความรับผิดชอบของผู้ให้บริการ"
+  },
+  {
+    chapter: null,
+    q: "การโจมตีแบบ DDoS ทำให้เกิดผลอย่างไร?",
+    options: [
+      "ขโมยข้อมูลส่วนตัวของผู้ใช้",
+      "ส่งคำขอจำนวนมากจากหลายเครื่องพร้อมกัน ทำให้เว็บช้าหรือล่ม",
+      "เข้ารหัสไฟล์และเรียกค่าไถ่",
+      "แก้ไขข้อมูลในฐานข้อมูล"
+    ],
+    answer: 1,
+    explain: "DDoS = ส่งคำขอจำนวนมากจากหลายเครื่องพร้อมกัน ทำให้ระบบรับไม่ไหว เว็บช้าหรือล่ม ผู้ใช้จริงใช้งานไม่ได้"
+  }
+];
+
+let answered = {};
+let correct = 0;
+let wrong = 0;
+let answerKeyVisible = false;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  let currentChapter = '';
+  let totalQ = quizData.length;
+  document.getElementById('total-count').textContent = totalQ;
+
+  quizData.forEach((item, idx) => {
+    if (item.chapter && item.chapter !== currentChapter) {
+      currentChapter = item.chapter;
+      const ch = document.createElement('div');
+      ch.className = 'chapter-title';
+      ch.textContent = item.chapter;
+      container.appendChild(ch);
+    }
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `card-${idx}`;
+
+    let optionsHtml = item.options.map((opt, oi) => {
+      const letters = ['ก', 'ข', 'ค', 'ง'];
+      return `<div class="option" id="opt-${idx}-${oi}" onclick="selectOption(${idx}, ${oi})">
+        <span class="option-letter">${letters[oi]}</span>
+        <span>${opt}</span>
+      </div>`;
+    }).join('');
+
+    card.innerHTML = `
+      <span class="q-number">ข้อที่ ${idx+1}</span>
+      <div class="q-text">${item.q}</div>
+      <div class="options">${optionsHtml}</div>
+      <button class="check-btn" id="btn-${idx}" onclick="checkAnswer(${idx})" disabled>ตรวจคำตอบ</button>
+      <div class="feedback" id="fb-${idx}"></div>
+    `;
+    container.appendChild(card);
+  });
+
+  document.getElementById('submit-row').style.display = 'flex';
+}
+
+function selectOption(qIdx, oIdx) {
+  if (answered[qIdx] !== undefined) return;
+  const letters = ['ก', 'ข', 'ค', 'ง'];
+  quizData[qIdx].options.forEach((_, oi) => {
+    const el = document.getElementById(`opt-${qIdx}-${oi}`);
+    el.classList.remove('selected');
+  });
+  document.getElementById(`opt-${qIdx}-${oIdx}`).classList.add('selected');
+  answered[qIdx] = oIdx;
+  document.getElementById(`btn-${qIdx}`).disabled = false;
+  updateProgress();
+}
+
+function checkAnswer(qIdx) {
+  const item = quizData[qIdx];
+  const chosen = answered[qIdx];
+  if (chosen === undefined) return;
+  const btn = document.getElementById(`btn-${qIdx}`);
+  btn.disabled = true;
+  const fb = document.getElementById(`fb-${qIdx}`);
+
+  for (let oi = 0; oi < item.options.length; oi++) {
+    const el = document.getElementById(`opt-${qIdx}-${oi}`);
+    el.style.pointerEvents = 'none';
+    if (oi === item.answer) el.classList.add(chosen === item.answer ? 'correct' : 'reveal-correct');
+    else if (oi === chosen && chosen !== item.answer) el.classList.add('wrong');
+    else el.classList.remove('selected');
+  }
+
+  if (chosen === item.answer) {
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = `✅ <strong>ถูกต้อง!</strong> ${item.explain}`;
+    correct++;
+  } else {
+    fb.className = 'feedback wrong-fb';
+    const letters = ['ก', 'ข', 'ค', 'ง'];
+    fb.innerHTML = `❌ <strong>ผิด!</strong> เฉลย: ข้อ ${letters[item.answer]} - ${item.options[item.answer]}<br>${item.explain}`;
+    wrong++;
+  }
+  document.getElementById('correct-count').textContent = correct;
+  document.getElementById('wrong-count').textContent = wrong;
+}
+
+function submitAll() {
+  // Check all unanswered
+  quizData.forEach((item, idx) => {
+    if (answered[idx] === undefined) {
+      answered[idx] = -1;
+    }
+    if (document.getElementById(`btn-${idx}`).disabled === false) {
+      checkAnswer(idx);
+    }
+  });
+  // Count all
+  correct = 0; wrong = 0;
+  quizData.forEach((item, idx) => {
+    if (answered[idx] === item.answer) correct++;
+    else wrong++;
+  });
+  document.getElementById('correct-count').textContent = correct;
+  document.getElementById('wrong-count').textContent = wrong;
+  showResult();
+}
+
+function showResult() {
+  const total = quizData.length;
+  const pct = Math.round(correct / total * 100);
+  let emoji = pct >= 80 ? '🌸' : pct >= 60 ? '😊' : '😅';
+  let msg = pct >= 80 ? 'เยี่ยมมาก! พร้อมสอบแล้ว 💪' : pct >= 60 ? 'ดีมาก! ทบทวนอีกนิดนึงนะ 📚' : 'สู้ๆ! อ่านเพิ่มอีกหน่อยนะ 💕';
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-score').textContent = `${correct} / ${total}`;
+  document.getElementById('result-msg').textContent = `${pct}% — ${msg}`;
+  document.getElementById('result-section').classList.add('show');
+  document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('submit-row').style.display = 'none';
+}
+
+function resetQuiz() {
+  answered = {};
+  correct = 0;
+  wrong = 0;
+  document.getElementById('correct-count').textContent = '0';
+  document.getElementById('wrong-count').textContent = '0';
+  document.getElementById('result-section').classList.remove('show');
+  document.getElementById('answer-key').classList.remove('show');
+  answerKeyVisible = false;
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleAnswerKey() {
+  answerKeyVisible = !answerKeyVisible;
+  if (answerKeyVisible) showAnswerKey();
+  else document.getElementById('answer-key').classList.remove('show');
+}
+
+function showAnswerKey() {
+  answerKeyVisible = true;
+  const ak = document.getElementById('answer-key');
+  const letters = ['ก', 'ข', 'ค', 'ง'];
+  let html = `<div class="answer-key-title">📋 เฉลยทุกข้อ</div>`;
+  quizData.forEach((item, idx) => {
+    html += `<div class="answer-item">
+      <div class="q-ref">ข้อที่ ${idx+1}</div>
+      <div class="q-ans">❓ ${item.q}</div>
+      <div class="q-ans" style="margin-top:6px;">✅ เฉลย: <strong>ข้อ ${letters[item.answer]} — ${item.options[item.answer]}</strong></div>
+      <div class="q-ans" style="margin-top:4px;color:#64748b;font-size:0.88rem;">💡 ${item.explain}</div>
+    </div>`;
+  });
+  ak.innerHTML = html;
+  ak.classList.add('show');
+  ak.scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const done = Object.keys(answered).length;
+  const total = quizData.length;
+  const pct = Math.round(done / total * 100);
+  // optional visual if added
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
